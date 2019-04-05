@@ -1,3 +1,24 @@
 .App {
   text-align: center;
 }
+
+.column-stack {
+  display: flex;
+  justify-content: center;
+  margin-right: 3em;
+}
+
+.column-header {
+  display: flex;
+  border-bottom: 1px solid black;
+  justify-content: center;
+}
+
+li {
+  list-style-type: none;
+  justify-content: center;
+}
+
+.AddStockName {
+  width: 5em;
+}
