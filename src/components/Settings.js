@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 
 class Settings extends Component {
+  state = {
+    GraphName: this.props.graph.name
+  }
+
+  handleGraphNameChange = (e) => {
+    this.setState({GraphName: e.target.value})
+  }
+
   render() {
   	console.log(this.props)
     return (
@@ -16,7 +24,8 @@ class Settings extends Component {
         name="GraphName"
         id="GraphName"
         className="GraphName"
-        value={"Something"}
+        onChange={this.handleGraphNameChange}
+        value={this.state.GraphName}
         />
         <br/>
         <h4>Graph</h4>
