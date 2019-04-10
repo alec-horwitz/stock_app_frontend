@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import UUID from 'uuid';
 
 class Settings extends Component {
   state = {
-    graph: {...this.props.graph},
-    stockName: "New Stock",
+    graph: this.props.graph ? JSON.parse(JSON.stringify(this.props.graph)) : {name:"", type:"Value 1", stocks:[]},
+    stockName: "",
     stockvisibile: true
   }
 
@@ -17,28 +18,25 @@ class Settings extends Component {
   }
 
   handleStock = (atrib, stock) => {
-      if (atrib === "name") {return (<li ><button id={stock.id}>{stock[atrib]}</button></li>)}
+      if (atrib === "name") {return (<li key={UUID()}>{stock[atrib]}</li>)}
       if (stock[atrib] === true) {
-        return (<li><button onClick={() => this.alterExistingStock(stock.id)}>√</button></li>)
+        return (<li key={UUID()}><button onClick={() => this.alterExistingStock(stock.id)}>√</button></li>)
       }
       if (stock[atrib] === false) {
-        return (<li><button onClick={() => this.alterExistingStock(stock.id)}>X</button></li>)
+        return (<li key={UUID()}><button onClick={() => this.alterExistingStock(stock.id)}>X</button></li>)
       }
-      if (atrib === "Add/Remove") {return (<li><button id={stock.id}>-</button></li>)}
+      if (atrib === "Add/Remove") {return (<li key={UUID()}><button id={stock.id}>-</button></li>)}
       return null
   }
 
   alterExistingStock = (id) => {
-    let graph = {...this.state.graph}
+    let graph = this.state.graph
     graph.stocks[id].visibile = !graph.stocks[id].visibile
     this.setState({graph})
   }
 
   alterGraph = (e) => {
-    let graph = {...this.state.graph}
-    if (graph == null) {
-      graph = {}
-    }
+    let graph = this.state.graph
     graph[e.target.name] = e.target.value
     this.setState({graph})
   }
@@ -62,16 +60,16 @@ class Settings extends Component {
         />
         <br/>
         <h4>Graph</h4>
-        Type: <select name="type" onChange={this.alterGraph} value={this.state.graph ? this.state.graph.type : "Value 1"}>
+        Type: <select name="type" onChange={this.alterGraph} value={this.state.graph ? this.state.graph.type : null}>
           <option>Value 1</option>
           <option>Value 2</option>
           <option>Value 3</option>
         </select>
         <br/>
         <h4>Stocks</h4>
-        <div class="column-stack">
+        <div className="column-stack">
           <ul>
-            <li class="column-header">Name</li>
+            <li className="column-header">Name</li>
             {this.handleStocks("name")}
             <li>
               <input
@@ -79,13 +77,14 @@ class Settings extends Component {
               name="stockName"
               id="stockName"
               className="stockName"
+              placeHolder="New Stock"
               value={this.state.stockName}
               onChange={this.handleOnChange}
               />
             </li>
           </ul>
           <ul>
-            <li class="column-header">visibile</li>
+            <li className="column-header">visibile</li>
             {this.handleStocks("visibile")}
             <li>
               <button onClick={() => this.setState({stockvisibile: !this.state.stockvisibile})}
@@ -94,7 +93,7 @@ class Settings extends Component {
             </button></li>
           </ul>
           <ul>
-            <li class="column-header">Add/Remove</li>
+            <li className="column-header">Add/Remove</li>
             {this.handleStocks("Add/Remove")}
             <li><button >+</button></li>
           </ul>
