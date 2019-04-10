@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const graph = require('../assets/images/graph.svg')
+const graphImg = require('../assets/images/graph.svg')
 
 class Graph extends Component {
   render() {
@@ -10,7 +10,7 @@ class Graph extends Component {
         <button onClick={()=>this.props.handleOnClick("Settings", "Graph")} >Settings</button>
         <br/>
         <h1>{this.props.graph.name}</h1>
-        <img src={this.props.graph.img} height="400rem" width="300rem"/>
+        <div className="DDDGraph"><img alt={this.props.graph.name+" image"} src={graphImg} height="400rem" width="300rem"/></div>
         <br/>
         <br/>
         <button className="SuggestionsButton" onClick={()=>this.props.handleOnClick("Suggestions", "Graph")} >See Suggestions</button>
