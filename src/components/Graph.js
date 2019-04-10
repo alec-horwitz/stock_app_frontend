@@ -10,7 +10,7 @@ class Graph extends Component {
         <button onClick={()=>this.props.handleOnClick("Settings", "Graph")} >Settings</button>
         <br/>
         <h1>{this.props.graph.name}</h1>
-        <img src={this.props.graph.img} height="400rem" width="300rem"/>
+        <div className="DDDGraph"><img src={this.props.graph.img} height="400rem" width="300rem"/></div>
         <br/>
         <br/>
         <button className="SuggestionsButton" onClick={()=>this.props.handleOnClick("Suggestions", "Graph")} >See Suggestions</button>

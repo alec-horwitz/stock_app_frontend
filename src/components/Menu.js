@@ -17,7 +17,7 @@ class Menu extends Component {
         {this.getGraphs()}
         <br/>
         <p>New Graph</p>
-        <button className="GraphButton" onClick={()=>this.props.handleOnClick("Settings", "Menu")} ><img src={plus} height="100rem" width="100rem"/></button>
+        <button className="GraphButton" onClick={()=>this.props.handleOnClick("Settings", "Menu", null)} ><img src={plus} height="100rem" width="100rem"/></button>
       </div>
     );
   }

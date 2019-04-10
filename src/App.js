@@ -6,10 +6,14 @@ import Suggestions from './components/Suggestions';
 import './App.css';
 
 const graphImg = require('./assets/images/graph.svg')
-
+const stocks = [
+  {id:0, name:"stock1", visibile:true},
+  {id:1, name:"$†Ô(ßπ", visibile:false},
+  {id:2, name:"STCK 3", visibile:true}
+]
 class App extends Component {
   state={
-    graphs: [{name:"myGraph1", img:graphImg}, {name:"myGraph2", img:graphImg}, {name:"myGraph3", img:graphImg}],
+    graphs: [{id:0, name:"myGraph1", img:graphImg, type:"Value 3", stocks}, {id:1, name:"myGraph2", img:graphImg, type:"Value 1", stocks}, {id:2, name:"myGraph3", img:graphImg, type:"Value 2", stocks}],
     graph: null,
     page: "Menu",
     parent: null
