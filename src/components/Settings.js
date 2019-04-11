@@ -5,7 +5,7 @@ class Settings extends Component {
   state = {
     graph: this.props.graph ? JSON.parse(JSON.stringify(this.props.graph)) : {name:"", type:"Value 1", stocks:[]},
     stockName: "",
-    stockvisibile: true
+    stockVisibile: true
   }
 
   handleOnChange = (e) => {
@@ -14,25 +14,39 @@ class Settings extends Component {
 
   handleStocks = (atrib) => {
     let graph = this.state.graph
-    return (graph && graph.stocks ? graph.stocks.map(stock => this.handleStock(atrib, stock)) : null)
+    return (graph && graph.stocks ? graph.stocks.map((stock, index)=> this.handleStock(atrib, stock, index)) : null)
   }
 
-  handleStock = (atrib, stock) => {
+  handleStock = (atrib, stock, index) => {
       if (atrib === "name") {return (<li key={UUID()}>{stock[atrib]}</li>)}
       if (stock[atrib] === true) {
-        return (<li key={UUID()}><button onClick={() => this.alterExistingStock(stock.id)}>√</button></li>)
+        return (<li key={UUID()}><button onClick={() => this.alterStocks(stock, index)}>√</button></li>)
       }
       if (stock[atrib] === false) {
-        return (<li key={UUID()}><button onClick={() => this.alterExistingStock(stock.id)}>X</button></li>)
+        return (<li key={UUID()}><button onClick={() => this.alterStocks(stock, index)}>X</button></li>)
       }
-      if (atrib === "Add/Remove") {return (<li key={UUID()}><button id={stock.id}>-</button></li>)}
+      if (atrib === "Add/Remove") {return (<li key={UUID()}><button onClick={() => this.alterStocks(null, index)}>-</button></li>)}
       return null
   }
 
-  alterExistingStock = (id) => {
+  alterStocks = (stock, index) => {
     let graph = this.state.graph
-    graph.stocks[id].visibile = !graph.stocks[id].visibile
-    this.setState({graph})
+    if (index === null) {
+      if (stock) {
+        if (stock.name.replace(/\s/g,'') === "") {stock.name = "N/A"}
+        graph.stocks = [...graph.stocks, {...stock, id: UUID()}]
+        this.setState({graph, stockName:"", stockVisibile: true})
+      } else {
+        console.error("alterStocks() require atlest one non-null input!")
+      }
+    } else {
+      if (stock) {
+        graph.stocks[index].visibile = !graph.stocks[index].visibile
+      } else {
+        graph.stocks = [...graph.stocks.slice(0, index), ...graph.stocks.slice(index+1)]
+      }
+      this.setState({graph})
+    }
   }
 
   alterGraph = (e) => {
@@ -45,7 +59,7 @@ class Settings extends Component {
     return (
       <div className="Settings">
         <button onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} >Cancel</button>
-        <button onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} >Save</button>
+        <button onClick={()=>this.props.graphCUD(this.state.graph, this.props.graphIndex)} >Save</button>
         <br/>
         <h1>Settings</h1>
         <br/>
@@ -61,9 +75,9 @@ class Settings extends Component {
         <br/>
         <h4>Graph</h4>
         Type: <select name="type" onChange={this.alterGraph} value={this.state.graph ? this.state.graph.type : null}>
-          <option>Value 1</option>
-          <option>Value 2</option>
-          <option>Value 3</option>
+          <option>Line Graph</option>
+          <option>Bar Chart</option>
+          <option>Scatter Plot</option>
         </select>
         <br/>
         <h4>Stocks</h4>
@@ -73,6 +87,7 @@ class Settings extends Component {
             {this.handleStocks("name")}
             <li>
               <input
+              style={{width:"6em"}}
               type="text"
               name="stockName"
               id="stockName"
@@ -87,20 +102,24 @@ class Settings extends Component {
             <li className="column-header">visibile</li>
             {this.handleStocks("visibile")}
             <li>
-              <button onClick={() => this.setState({stockvisibile: !this.state.stockvisibile})}
+              <button onClick={() => this.setState({stockVisibile: !this.state.stockVisibile})}
               >
-            {this.state.stockvisibile === true? "√" : "X"}
+            {this.state.stockVisibile === true? "√" : "X"}
             </button></li>
           </ul>
           <ul>
             <li className="column-header">Add/Remove</li>
             {this.handleStocks("Add/Remove")}
-            <li><button >+</button></li>
+            <li>
+              <button onClick={() => this.alterStocks({name: this.state.stockName, visibile: this.state.stockVisibile}, null)}>+</button>
+            </li>
           </ul>
         </div>
         <br/>
-        <h4>Danger Zone</h4>
-        <button onClick={()=>this.props.handleOnClick("Menu", "Settings")} >Delete Graph</button>
+        {this.props.graph ? 
+          <div><h4>Danger Zone</h4>
+          <button onClick={()=>this.props.graphCUD(null, this.props.graphIndex)} >Delete Graph</button> </div>:
+          null}
       </div>
     );
   }
