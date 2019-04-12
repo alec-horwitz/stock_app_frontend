@@ -58,9 +58,10 @@ class Settings extends Component {
   render() {
     return (
       <div className="Settings">
-        <button onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} >Cancel</button>
-        <button onClick={()=>this.props.graphCUD(this.state.graph, this.props.graphIndex)} >Save</button>
-        <br/>
+        <div className="titleButtons">
+          <button onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} >Cancel</button>
+          <button onClick={()=>this.props.graphCUD(this.state.graph, this.props.graphIndex)} >Save</button>
+        </div>
         <h1>Settings</h1>
         <br/>
         <h4>Genral</h4>
@@ -87,7 +88,6 @@ class Settings extends Component {
             {this.handleStocks("name")}
             <li>
               <input
-              style={{width:"6em"}}
               type="text"
               name="stockName"
               id="stockName"

@@ -24,7 +24,7 @@ const sampleGraphs = [
       {
         id:2, 
         name:"$†Ô(ßπ", 
-        visibile:true
+        visibile:false
       },
     ]
   },
@@ -36,17 +36,17 @@ const sampleGraphs = [
       {
         id:0, 
         name:"stock1", 
-        visibile:true
+        visibile:false
       },
       {
         id:1, 
         name:"STCK 2", 
-        visibile:false
+        visibile:true
       },
       {
         id:2, 
         name:"$†Ô(ßπ", 
-        visibile:true
+        visibile:false
       },
     ]
   },
@@ -58,7 +58,7 @@ const sampleGraphs = [
       {
         id:0, 
         name:"stock1", 
-        visibile:true
+        visibile:false
       },
       {
         id:1, 

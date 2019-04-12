@@ -19,6 +19,11 @@ li {
   justify-content: center;
 }
 
-.AddStockName {
-  width: 5em;
+.stockName {
+  width: 6em
+}
+
+.titleButtons {
+  display: flex;
+  justify-content: space-between;
 }
