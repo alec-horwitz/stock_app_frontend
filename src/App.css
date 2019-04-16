@@ -27,3 +27,8 @@ li {
   display: flex;
   justify-content: space-between;
 }
+
+.D3Graph {
+  justify-content: center;
+  margin-left: -4em;
+}

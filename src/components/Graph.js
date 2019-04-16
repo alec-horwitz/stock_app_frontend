@@ -3,43 +3,62 @@ import BarGraph from '../D3/BarGraph';
 
 const data = [
   {
-    "month": "January",
-    "revenue": 13432,
-    "profit": 8342
+    "ticker": "AAPL",
+    "price": 19342
   },
   {
-    "month": "February",
-    "revenue": 19342,
-    "profit": 10342
+    "ticker": "BRK.A",
+    "price": 17443
   },
   {
-    "month": "March",
-    "revenue": 17443,
-    "profit": 15423
+    "ticker": "GOOG",
+    "price": 34213
   },
   {
-    "month": "April",
-    "revenue": 26342,
-    "profit": 18432
+    "ticker": "HOG",
+    "price": 50321
   },
   {
-    "month": "May",
-    "revenue": 34213,
-    "profit": 29434
+    "ticker": "HPQ",
+    "price": 54273
   },
   {
-    "month": "June",
-    "revenue": 50321,
-    "profit": 45343
+    "ticker": "INTC",
+    "price": 24739
   },
   {
-    "month": "July",
-    "revenue": 54273,
-    "profit": 47452
+    "ticker": "MMM",
+    "price": 59023
+  },
+  {
+    "ticker": "MSFT",
+    "price": 39482
+  },
+  {
+    "ticker": "TGT",
+    "price": 18729
+  },
+  {
+    "ticker": "TXN",
+    "price": 58362
+  },
+  {
+    "ticker": "WMT",
+    "price": 48250
   }
 ]
 
 class Graph extends Component {
+  state = {
+    data: data
+  }
+  componentDidMount() {
+    BarGraph(data,this.props.graph)
+  }
+
+  componentDidUpdate() {
+    BarGraph(data,this.props.graph)
+  }
   render() {
     return (
       <div className="Graph">
@@ -48,11 +67,7 @@ class Graph extends Component {
           <button onClick={()=>this.props.handleOnClick("Settings", "Graph")} >Settings</button>
         </div>
         <h1>{this.props.graph.name}</h1>
-        <div className="DDDGraph">
-          <BarGraph settings={this.props.graph} data={data} />
-        </div>
-        <br/>
-        <br/>
+        <div className="D3Graph"></div>
         <button className="SuggestionsButton" onClick={()=>this.props.handleOnClick("Suggestions", "Graph")} >See Suggestions</button>
       </div>
     );
