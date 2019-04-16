@@ -92,7 +92,7 @@ class Settings extends Component {
               name="stockName"
               id="stockName"
               className="stockName"
-              placeHolder="New Stock"
+              placeholder="New Stock"
               value={this.state.stockName}
               onChange={this.handleOnChange}
               />
