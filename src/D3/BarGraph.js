@@ -3,8 +3,8 @@ import * as d3 from "d3";
 const BarGraph = (data, settings) => {
 	const margin = {left:100, right:10, top:10, bottom:100}
 
-	const width = 300 - margin.left - margin.right
-	const height = 400 - margin.top - margin.bottom
+	const width = window.innerWidth - margin.left - margin.right - 15
+	const height = window.innerHeight - margin.top - margin.bottom - 100
  
 	const xScale = d3.scaleBand()
 		.domain(data.map(function(d){return d.ticker}))
