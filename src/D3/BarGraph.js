@@ -1,6 +1,8 @@
 import * as d3 from "d3";
 
-const BarGraph = (data, settings) => {
+const BarGraph = (settings) => {
+
+	const data = JSON.parse(JSON.stringify(settings.stocks)).filter(function(stock) { return stock.visible; })
 	const margin = {left:100, right:10, top:10, bottom:100}
 
 	const width = window.innerWidth - margin.left - margin.right - 15
@@ -13,7 +15,7 @@ const BarGraph = (data, settings) => {
 		.paddingOuter(0.3)
 
 	const yScale = d3.scaleLinear()
-		.domain(d3.extent(data, function(d){return d.price}))
+		.domain([0, d3.max(data, function(d){return d.price})])
 		.range([height,0])
 
 	const xAxisCall = d3.axisBottom().scale(xScale)

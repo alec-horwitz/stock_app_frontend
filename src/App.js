@@ -13,18 +13,21 @@ const sampleGraphs = [
     stocks:[
       {
         id:0, 
-        name:"stock1", 
-        visibile:true
+        ticker: "GOOG",
+        price: 34213,
+        visible:true
       },
       {
         id:1, 
-        name:"STCK 2", 
-        visibile:false
+        ticker: "HOG",
+        price: 58362, 
+        visible:false
       },
       {
         id:2, 
-        name:"$†Ô(ßπ", 
-        visibile:false
+        ticker: "TXN",
+        price: 18729, 
+        visible:false
       },
     ]
   },
@@ -35,18 +38,21 @@ const sampleGraphs = [
     stocks:[
       {
         id:0, 
-        name:"stock1", 
-        visibile:false
+        ticker: "HPQ",
+        price: 48250, 
+        visible:false
       },
       {
         id:1, 
-        name:"STCK 2", 
-        visibile:true
+        ticker: "INTC",
+        price: 24739, 
+        visible:true
       },
       {
         id:2, 
-        name:"$†Ô(ßπ", 
-        visibile:false
+        ticker: "BRK.A",
+        price: 59023, 
+        visible:false
       },
     ]
   },
@@ -57,28 +63,56 @@ const sampleGraphs = [
     stocks:[
       {
         id:0, 
-        name:"stock1", 
-        visibile:false
+        ticker: "WMT",
+        price: 54273, 
+        visible:false
       },
       {
         id:1, 
-        name:"STCK 2", 
-        visibile:false
+        ticker: "MSFT",
+        price: 34213, 
+        visible:false
       },
       {
         id:2, 
-        name:"$†Ô(ßπ", 
-        visibile:true
+        ticker: "TGT",
+        price: 19342, 
+        visible:true
       },
     ]
   }]
 
+function sleep(milliseconds) {
+  const start = new Date().getTime();
+  for (const i = 0; i < 1; i) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
 class App extends Component {
   state={
-    graphs: sampleGraphs,
+    graphs: [],
     graphIndex: null,
     page: "Menu",
-    parent: null
+    parent: null,
+    allowNav: true
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      alert("Loading your graphs from our database. This may take a few seconds.");
+      sleep(5000)
+      this.setState({graphs: sampleGraphs})
+    }, 0)
+    setTimeout(() => {
+      this.toggleNavigation()
+    }, 1000)
+  }
+
+  toggleNavigation = () => {
+    this.setState({allowNav: !this.state.allowNav})
   }
 
   handleOnClick = (page, parent, graphIndex=this.state.graphIndex, graphs=this.state.graphs) => {
@@ -90,7 +124,6 @@ class App extends Component {
     const len = this.state.graphs.length
     if (newGraph) {  
       if (newGraphIndex !== null) {
-        console.log("Update: ",newGraph)
         this.setState({
           graphs: [...graphs.slice(0, newGraphIndex), newGraph, ...graphs.slice(newGraphIndex+1)],
           graphIndex: newGraphIndex,
@@ -98,7 +131,6 @@ class App extends Component {
           parent: "Menu"
         })
       } else {
-        console.log("Create: ",newGraph)
         this.setState({
           graphs: [...this.state.graphs, {...newGraph, id:len}],
           graphIndex: len,
@@ -107,7 +139,6 @@ class App extends Component {
         })
       }
     } else {
-      console.log("Destroy: ",newGraph)
       this.setState({
         graphs: newGraphIndex !== null ? [...graphs.slice(0, newGraphIndex), ...graphs.slice(newGraphIndex+1)] : graphs,
         graphIndex: null,
@@ -119,12 +150,18 @@ class App extends Component {
   }
 
   render() {
-    const {graphs, graphIndex} = this.state
+    let myStocks = []
+    const {graphs, graphIndex, allowNav} = this.state
+    const stockLists = graphs.map(graph => {return graph.stocks})
+    stockLists.forEach(function(stockList) {
+        myStocks = [...myStocks, ...stockList]
+    });
+
     return (
       <div className="App">
-        {this.state.page === "Menu" ? <Menu graphs={graphs} handleOnClick={this.handleOnClick} /> : null}
+        {this.state.page === "Menu" ? <Menu navigation={{toggle: this.toggleNavigation, val: allowNav}} graphs={graphs} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Graph" ? <Graph graph={graphs[graphIndex]} handleOnClick={this.handleOnClick} /> : null}
-        {this.state.page === "Settings" ? <Settings graph={graphs[graphIndex]} graphIndex={graphIndex} graphCUD={this.graphCUD} parent={this.state.parent} handleOnClick={this.handleOnClick} /> : null}
+        {this.state.page === "Settings" ? <Settings navigation={{toggle: this.toggleNavigation, val: allowNav}} myStocks={myStocks} graph={graphs[graphIndex]} graphIndex={graphIndex} graphCUD={this.graphCUD} parent={this.state.parent} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Suggestions" ? <Suggestions graph={graphs[graphIndex]} handleOnClick={this.handleOnClick} /> : null}
 
       </div>
