@@ -4,46 +4,57 @@ import UUID from 'uuid';
 const sampleStocks = [
   {
     "ticker": "AAPL",
+    "revenue": "1124",
     "price": "19342"
   },
   {
     "ticker": "BRK.A",
+    "revenue": "2364",
     "price": "17443"
   },
   {
     "ticker": "GOOG",
+    "revenue": "3656",
     "price": "34213"
   },
   {
     "ticker": "HOG",
+    "revenue": "14323",
     "price": "50321"
   },
   {
     "ticker": "HPQ",
+    "revenue": "2657",
     "price": "54273"
   },
   {
     "ticker": "INTC",
+    "revenue": "33456",
     "price": "24739"
   },
   {
     "ticker": "MMM",
+    "revenue": "17556",
     "price": "59023"
   },
   {
     "ticker": "MSFT",
+    "revenue": "29865",
     "price": "39482"
   },
   {
     "ticker": "TGT",
+    "revenue": "38535",
     "price": "18729"
   },
   {
     "ticker": "TXN",
+    "revenue": "13664",
     "price": "58362"
   },
   {
     "ticker": "WMT",
+    "revenue": "29734",
     "price": "48250"
   }
 ]

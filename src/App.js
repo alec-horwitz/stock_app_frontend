@@ -14,18 +14,21 @@ const sampleGraphs = [
       {
         id:0, 
         ticker: "GOOG",
+        revenue: 14584,
         price: 34213,
         visible:true
       },
       {
         id:1, 
         ticker: "HOG",
+        revenue: 23577,
         price: 58362, 
         visible:false
       },
       {
         id:2, 
         ticker: "TXN",
+        revenue: 53434,
         price: 18729, 
         visible:false
       },
@@ -39,18 +42,21 @@ const sampleGraphs = [
       {
         id:0, 
         ticker: "HPQ",
+        revenue: 47083,
         price: 48250, 
         visible:false
       },
       {
         id:1, 
         ticker: "INTC",
+        revenue: 38292,
         price: 24739, 
         visible:true
       },
       {
         id:2, 
         ticker: "BRK.A",
+        revenue: 29769,
         price: 59023, 
         visible:false
       },
@@ -64,18 +70,21 @@ const sampleGraphs = [
       {
         id:0, 
         ticker: "WMT",
+        revenue: 19875,
         price: 54273, 
         visible:false
       },
       {
         id:1, 
         ticker: "MSFT",
+        revenue: 35857,
         price: 34213, 
         visible:false
       },
       {
         id:2, 
         ticker: "TGT",
+        revenue: 18759,
         price: 19342, 
         visible:true
       },
