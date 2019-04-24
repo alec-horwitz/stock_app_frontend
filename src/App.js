@@ -91,15 +91,6 @@ const sampleGraphs = [
     ]
   }]
 
-function sleep(milliseconds) {
-  const start = new Date().getTime();
-  for (const i = 0; i < 1; i) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
-
 class App extends Component {
   state={
     graphs: [],
@@ -112,12 +103,10 @@ class App extends Component {
   componentDidMount() {
     setTimeout(() => {
       alert("Loading your graphs from our database. This may take a few seconds.");
-      sleep(5000)
-      this.setState({graphs: sampleGraphs})
-    }, 0)
+    })
     setTimeout(() => {
-      this.toggleNavigation()
-    }, 1000)
+      this.setState({graphs: sampleGraphs, allowNav: !this.state.allowNav})
+    }, 5000)
   }
 
   toggleNavigation = () => {
@@ -168,7 +157,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        {this.state.page === "Menu" ? <Menu navigation={{toggle: this.toggleNavigation, val: allowNav}} graphs={graphs} handleOnClick={this.handleOnClick} /> : null}
+        {this.state.page === "Menu" ? <Menu allowNav={allowNav} graphs={graphs} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Graph" ? <Graph graph={graphs[graphIndex]} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Settings" ? <Settings navigation={{toggle: this.toggleNavigation, val: allowNav}} myStocks={myStocks} graph={graphs[graphIndex]} graphIndex={graphIndex} graphCUD={this.graphCUD} parent={this.state.parent} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Suggestions" ? <Suggestions graph={graphs[graphIndex]} handleOnClick={this.handleOnClick} /> : null}

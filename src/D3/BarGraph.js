@@ -136,10 +136,12 @@ const BarGraph = (settings) => {
 	const yAxisGroup = g.append("g")
 		.attr("class", "y axis")
 
-	d3.interval(()=> {
+	const t = d3.interval(()=> {
 		update(data, xScale, yScale, xAxisGroup, yAxisGroup, g, height)
 	}, 1000)
 	update(data, xScale, yScale, xAxisGroup, yAxisGroup, g, height)
+
+	return t
 }
 
 const update = (data, xScale, yScale, xAxisGroup, yAxisGroup, g, height) => {
@@ -160,6 +162,8 @@ const update = (data, xScale, yScale, xAxisGroup, yAxisGroup, g, height) => {
 	yAxisGroup.call(yAxisCall)
 
 	// Bars
+
+	console.log(data)
 
 	// JOIN new data with old elements
 	let rects = g.selectAll("rect")

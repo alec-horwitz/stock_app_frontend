@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import BarGraph from '../D3/BarGraph';
 
 class Graph extends Component {
+  state = {
+    timer: null
+  }
   componentDidMount() {
-    BarGraph(this.props.graph)
+    this.setState({timer: BarGraph(this.props.graph)})
   }
 
-  componentDidUpdate() {
-    BarGraph(this.props.graph)
+  componentWillUnmount() {
+    this.state.timer && this.state.timer.stop()
   }
   render() {
     return (
