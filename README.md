@@ -8,6 +8,7 @@ This is frontend that I'm using as a side project to learn about the stock marke
 For more information on the planning phases of this project checkout my blog posts here:
 
  * Phase 0: https://alecthedeveloper.wordpress.com/2019/03/25/a-d3-mechine-learning-and-django-project-phase-0/. 
+ * Phase 1: https://alecthedeveloper.wordpress.com/2019/04/15/a-d3-mechine-learning-and-django-project-phase-1/.
 
 
 Below are some screenshots of the wireframes I'm using to plan how the interface for the app will look on a mobile divice:

@@ -3,13 +3,16 @@ import BarGraph from '../D3/BarGraph';
 
 class Graph extends Component {
   state = {
+    interval: null,
     timer: null
   }
   componentDidMount() {
-    this.setState({timer: BarGraph(this.props.graph)})
+    const updates = BarGraph(this.props.graph)
+    this.setState({interval: updates[0], timer: updates[1]})
   }
 
   componentWillUnmount() {
+    this.state.interval && this.state.interval.stop()
     this.state.timer && this.state.timer.stop()
   }
   render() {
