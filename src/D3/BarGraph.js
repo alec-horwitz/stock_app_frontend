@@ -2,6 +2,7 @@ import * as d3 from "d3";
 
 let flag = true
 const margin = {left:100, right:10, top:10, bottom:100}
+const transition = d3.transition().duration(750);
 
 const BarGraph = (settings) => {
 	const data = JSON.parse(JSON.stringify(settings.stocks)).filter(function(stock) { return stock.visible; })
@@ -32,35 +33,35 @@ const BarGraph = (settings) => {
 	// Y Label
 	const yLabel = g.append("text")
 
-	const t = d3.interval(()=>{
-		update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
+	const timer = d3.interval(()=>{
 	})
-	const i = d3.interval(()=> {
+	const interval = d3.interval(()=> {
+    update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
 		flag = !flag
 	}, 5000)
 	update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
 
-	return [i, t]
+	return [interval, timer]
 }
 
 const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel) => {
-	const height = window.innerHeight - margin.top - margin.bottom - 100
-	const width = window.innerWidth - margin.left - margin.right - 15
-	const value = flag ? "revenue" : "price";
+  const height = window.innerHeight - margin.top - margin.bottom - 100
+  const width = window.innerWidth - margin.left - margin.right - 15
+  const value = flag ? "revenue" : "price";
 
-	svg
-		.attr("width", width + margin.left + margin.right)
+  svg
+    .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
 
-	xLabel
-		.attr("y", height + 50)
+  xLabel
+    .attr("y", height + 50)
     .attr("x", width / 2)
     .attr("font-size", "20px")
     .attr("text-anchor", "middle")
     .text("Stock");
 
   yLabel
-	  .attr("y", -60)
+    .attr("y", -60)
     .attr("x", -(height / 2))
     .attr("font-size", "20px")
     .attr("text-anchor", "middle")
@@ -79,11 +80,11 @@ const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yL
   const xAxisCall = d3.axisBottom(xScale);
   xAxisGroup.call(xAxisCall)
     .attr("transform", "translate(0," + height +")")
-  	.selectAll("text")
-		.attr("y", 10)
-		.attr("x", -5)
-		.attr("text-anchor", "end")
-		.attr("transform", "rotate(-40)")
+    .selectAll("text")
+    .attr("y", 10)
+    .attr("x", -5)
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-40)")
 
   // Y Axis
   const yAxisCall = d3.axisLeft(yScale)
@@ -95,26 +96,105 @@ const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yL
       .data(data);
 
   // EXIT old elements not present in new data.
-  rects.exit().remove();
-
-  // UPDATE old elements present in new data.
-  rects
-      .attr("y", function(d){ return yScale(d[value]); })
-      .attr("x", function(d){ return xScale(d.ticker) })
-      .attr("height", function(d){ return height - yScale(d[value]); })
-      .attr("width", xScale.bandwidth);
+  rects.exit()
+    .attr("fill", "red")
+    .transition(transition)
+    .attr("y", yScale[0])
+    .attr("height", 0)
+    .remove();
 
   // ENTER new elements present in new data.
   rects.enter()
-      .append("rect")
-          .attr("y", function(d){ return yScale(d[value]); })
-          .attr("x", function(d){ return xScale(d.ticker) })
-          .attr("height", function(d){ return height - yScale(d[value]); })
-          .attr("width", xScale.bandwidth)
-          .attr("fill", "grey");
+    .append("rect")
+      .attr("fill", "grey")
+      .attr("y", yScale[0])
+      .attr("height", 0)
+      .attr("x", function(d){ return xScale(d.ticker) })
+      .attr("width", xScale.bandwidth)
+      // AND UPDATE old elements present in new data
+      .merge(rects)
+      .transition(transition)
+        .attr("x", function(d){ return xScale(d.ticker) })
+        .attr("width", xScale.bandwidth)
+        .attr("y", function(d){ return yScale(d[value]); })
+        .attr("height", function(d){ return height - yScale(d[value]); })
 
     const label = flag ? "Revenue" : "Price";
     yLabel.text(label);
 }
+
+// const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel) => {
+// 	const height = window.innerHeight - margin.top - margin.bottom - 100
+// 	const width = window.innerWidth - margin.left - margin.right - 15
+// 	const value = flag ? "revenue" : "price";
+
+// 	svg
+// 		.attr("width", width + margin.left + margin.right)
+//     .attr("height", height + margin.top + margin.bottom)
+
+// 	xLabel
+// 		.attr("y", height + 50)
+//     .attr("x", width / 2)
+//     .attr("font-size", "20px")
+//     .attr("text-anchor", "middle")
+//     .text("Stock");
+
+//   yLabel
+// 	  .attr("y", -60)
+//     .attr("x", -(height / 2))
+//     .attr("font-size", "20px")
+//     .attr("text-anchor", "middle")
+//     .attr("transform", "rotate(-90)")
+//     .text("Price");
+
+//   xScale
+//     .domain(data.map(function(d){ return d.ticker }))
+//     .range([0, width])
+//     .padding(0.2)
+//   yScale
+//     .domain([0, d3.max(data, function(d) { return d[value] })])
+//     .range([height, 0])
+
+//   // X Axis
+//   const xAxisCall = d3.axisBottom(xScale);
+//   xAxisGroup.call(xAxisCall)
+//     .attr("transform", "translate(0," + height +")")
+//   	.selectAll("text")
+// 		.attr("y", 10)
+// 		.attr("x", -5)
+// 		.attr("text-anchor", "end")
+// 		.attr("transform", "rotate(-40)")
+
+//   // Y Axis
+//   const yAxisCall = d3.axisLeft(yScale)
+//       .tickFormat(function(d){ return "$" + d; });
+//   yAxisGroup.call(yAxisCall);
+
+//   // JOIN new data with old elements.
+//   const rects = g.selectAll("rect")
+//       .data(data);
+
+//   // EXIT old elements not present in new data.
+//   rects.exit().remove();
+
+//   // UPDATE old elements present in new data.
+//   rects
+//       .attr("y", function(d){ return yScale(d[value]); })
+//       .attr("x", function(d){ return xScale(d.ticker) })
+//       .attr("height", function(d){ return height - yScale(d[value]); })
+//       .attr("width", xScale.bandwidth);
+
+//   // ENTER new elements present in new data.
+//   rects.enter()
+//       .append("rect")
+//           .attr("y", function(d){ return yScale(d[value]); })
+//           .attr("x", function(d){ return xScale(d.ticker) })
+//           .attr("height", function(d){ return height - yScale(d[value]); })
+//           .attr("width", xScale.bandwidth)
+//           .attr("fill", "grey");
+
+//     const label = flag ? "Revenue" : "Price";
+//     yLabel.text(label);
+// }
 
 export default BarGraph
