@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import BarGraph from '../D3/BarGraph';
+import LineGraph from '../D3/LineGraph';
+import ScatterGraph from '../D3/ScatterGraph';
 
 class Graph extends Component {
   state = {
@@ -7,8 +9,19 @@ class Graph extends Component {
     timer: null
   }
   componentDidMount() {
-    const updates = BarGraph(this.props.graph)
-    this.setState({interval: updates[0], timer: updates[1]})
+    if (this.props.graph.type === "Line Graph") {
+      console.log("I'm Line")
+      const updates = LineGraph(this.props.graph)
+      this.setState({interval: updates[0], timer: updates[1]})
+    } else if (this.props.graph.type === "Scatter Plot") {
+      console.log("I'm Scatter")
+      const updates = ScatterGraph(this.props.graph)
+      this.setState({interval: updates[0], timer: updates[1]})
+    } else {
+      console.log("I'm Bar")
+      const updates = BarGraph(this.props.graph)
+      this.setState({interval: updates[0], timer: updates[1]})
+    }
   }
 
   componentWillUnmount() {
