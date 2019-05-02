@@ -11,17 +11,19 @@ class Graph extends Component {
   componentDidMount() {
     if (this.props.graph.type === "Line Graph") {
       console.log("I'm Line")
-      const updates = LineGraph(this.props.graph)
-      this.setState({interval: updates[0], timer: updates[1]})
+      this.renderGraph(LineGraph)
     } else if (this.props.graph.type === "Scatter Plot") {
       console.log("I'm Scatter")
-      const updates = ScatterGraph(this.props.graph)
-      this.setState({interval: updates[0], timer: updates[1]})
+      this.renderGraph(ScatterGraph)
     } else {
       console.log("I'm Bar")
-      const updates = BarGraph(this.props.graph)
-      this.setState({interval: updates[0], timer: updates[1]})
+      this.renderGraph(BarGraph)
     }
+  }
+
+  renderGraph(writeGraph) {
+    const updates = writeGraph(this.props.graph)
+    this.setState({interval: updates[0], timer: updates[1]})
   }
 
   componentWillUnmount() {
