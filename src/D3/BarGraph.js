@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-let flag = true
+let flag = false
 const margin = {left:100, right:10, top:10, bottom:100}
 const transition = d3.transition().duration(750);
 
@@ -37,7 +37,7 @@ const BarGraph = (settings) => {
 	})
 	const interval = d3.interval(()=> {
     update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
-		flag = !flag
+		// flag = !flag
 	}, 5000)
 	update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
 
@@ -47,7 +47,7 @@ const BarGraph = (settings) => {
 const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel) => {
   const height = window.innerHeight - margin.top - margin.bottom - 100
   const width = window.innerWidth - margin.left - margin.right - 15
-  const value = flag ? "revenue" : "price";
+  const value = flag ? 1 : 4;
 
   svg
     .attr("width", width + margin.left + margin.right)
@@ -73,7 +73,7 @@ const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yL
     .range([0, width])
     .padding(0.2)
   yScale
-    .domain([0, d3.max(data, function(d) { return d[value] })])
+    .domain([0, d3.max(data, function(d) { return d.dataset[value] })])
     .range([height, 0])
 
   // X Axis
@@ -119,7 +119,7 @@ const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yL
         .attr("y", function(d){ return yScale(d[value]); })
         .attr("height", function(d){ return height - yScale(d[value]); })
 
-    const label = flag ? "Revenue" : "Price";
+    const label = flag ? "Close" : "Open";
     yLabel.text(label);
 }
 

@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import BarGraph from '../D3/BarGraph';
 import LineGraph from '../D3/LineGraph';
 import ScatterGraph from '../D3/ScatterGraph';
+import {API_KEY} from '../Secrets.js'
 
 class Graph extends Component {
-  state = {
-    interval: null,
-    timer: null
-  }
   componentDidMount() {
     if (this.props.graph.type === "Line Graph") {
       console.log("I'm Line")
@@ -21,14 +18,27 @@ class Graph extends Component {
     }
   }
 
-  renderGraph(writeGraph) {
-    const updates = writeGraph(this.props.graph)
-    this.setState({interval: updates[0], timer: updates[1]})
+  renderGraph = (writeGraph, graph=JSON.parse(JSON.stringify(this.props.graph)), i=0) => {
+    console.log(JSON.parse(JSON.stringify(this.props.graphs)))
+    console.log(graph)
+    if (i < graph.stocks.length) {
+      fetch("https://www.quandl.com/api/v3/datasets/WIKI/"+graph.stocks[i].ticker+"/data.ison?api_key="+API_KEY)
+      .then(res => res.json())
+      .then(res => {
+        graph.stocks[i].dataset = res.dataset_data
+        this.renderGraph(writeGraph, graph, i+1)
+      })
+    } else if (graph.stocks.length) { 
+      const updates = writeGraph(graph)
+      graph.interval = updates[0]
+      graph.timer = updates[1]
+      this.props.graphCUD(graph)
+    }
   }
 
   componentWillUnmount() {
-    this.state.interval && this.state.interval.stop()
-    this.state.timer && this.state.timer.stop()
+    this.props.graph.interval && this.props.graph.interval.stop()
+    this.props.graph.timer && this.props.graph.timer.stop()
   }
   render() {
     return (

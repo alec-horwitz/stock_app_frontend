@@ -155,7 +155,7 @@ class Settings extends Component {
       <div className="Settings">
         <div className="titleButtons">
           <button onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} disabled={this.props.navigation.val} >Cancel</button>
-          <button onClick={()=>this.props.graphCUD(this.state.graph, this.props.graphIndex)} disabled={this.props.navigation.val} >Save</button>
+          <button onClick={()=>this.props.graphCUD(this.state.graph, null)} disabled={this.props.navigation.val} >Save</button>
         </div>
         <h1>Settings</h1>
         <br/>
@@ -212,7 +212,7 @@ class Settings extends Component {
         <br/>
         {this.props.graph ? 
           <div><h4>Danger Zone</h4>
-          <button onClick={()=>this.props.graphCUD(null, this.props.graphIndex)} disabled={this.props.navigation.val} >Delete Graph</button> </div>:
+          <button onClick={()=>this.props.graphCUD()} disabled={this.props.navigation.val} >Delete Graph</button> </div>:
           null}
       </div>
     );

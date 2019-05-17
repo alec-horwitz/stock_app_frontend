@@ -14,22 +14,16 @@ const sampleGraphs = [
       {
         id:0, 
         ticker: "GOOG",
-        revenue: 14584,
-        price: 34213,
         visible:true
       },
       {
         id:1, 
         ticker: "HOG",
-        revenue: 23577,
-        price: 58362, 
         visible:false
       },
       {
         id:2, 
         ticker: "TXN",
-        revenue: 53434,
-        price: 18729, 
         visible:false
       },
     ]
@@ -42,22 +36,16 @@ const sampleGraphs = [
       {
         id:0, 
         ticker: "HPQ",
-        revenue: 47083,
-        price: 48250, 
         visible:false
       },
       {
         id:1, 
         ticker: "INTC",
-        revenue: 38292,
-        price: 24739, 
         visible:true
       },
       {
         id:2, 
-        ticker: "BRK.A",
-        revenue: 29769,
-        price: 59023, 
+        ticker: "BRK_A",
         visible:false
       },
     ]
@@ -70,22 +58,16 @@ const sampleGraphs = [
       {
         id:0, 
         ticker: "WMT",
-        revenue: 19875,
-        price: 54273, 
         visible:false
       },
       {
         id:1, 
         ticker: "MSFT",
-        revenue: 35857,
-        price: 34213, 
         visible:false
       },
       {
         id:2, 
         ticker: "TGT",
-        revenue: 18759,
-        price: 19342, 
         visible:true
       },
     ]
@@ -117,9 +99,8 @@ class App extends Component {
     this.setState({page, parent, graphIndex, graphs})
   }
 
-  graphCUD = (newGraph, newGraphIndex) => {
+  graphCUD = (newGraph=null, newGraphIndex=this.state.graphIndex) => {
     const graphs = this.state.graphs
-    const len = this.state.graphs.length
     if (newGraph) {  
       if (newGraphIndex !== null) {
         this.setState({
@@ -129,6 +110,7 @@ class App extends Component {
           parent: "Menu"
         })
       } else {
+        const len = this.state.graphs.length
         this.setState({
           graphs: [...this.state.graphs, {...newGraph, id:len}],
           graphIndex: len,
@@ -148,6 +130,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.graphs)
     let myStocks = []
     const {graphs, graphIndex, allowNav} = this.state
     const stockLists = graphs.map(graph => {return graph.stocks})
@@ -158,7 +141,7 @@ class App extends Component {
     return (
       <div className="App">
         {this.state.page === "Menu" ? <Menu allowNav={allowNav} graphs={graphs} handleOnClick={this.handleOnClick} /> : null}
-        {this.state.page === "Graph" ? <Graph graph={graphs[graphIndex]} handleOnClick={this.handleOnClick} /> : null}
+        {this.state.page === "Graph" ? <Graph graphCUD={this.graphCUD} graph={graphs[graphIndex]} graphs={graphs} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Settings" ? <Settings navigation={{toggle: this.toggleNavigation, val: allowNav}} myStocks={myStocks} graph={graphs[graphIndex]} graphIndex={graphIndex} graphCUD={this.graphCUD} parent={this.state.parent} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Suggestions" ? <Suggestions graph={graphs[graphIndex]} handleOnClick={this.handleOnClick} /> : null}
 
