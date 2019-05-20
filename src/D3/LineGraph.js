@@ -1,47 +1,47 @@
 import * as d3 from "d3";
 
-let flag = false
+let flag = true
 const margin = {left:100, right:10, top:10, bottom:100}
 const transition = d3.transition().duration(750);
 
 const LineGraph = (settings) => {
-	const data = JSON.parse(JSON.stringify(settings.stocks)).filter(function(stock) { return stock.visible; })
+  const data = JSON.parse(JSON.stringify(settings.stocks)).filter(function(stock) { return stock.visible; })
 
-	    
-	let svg = d3.select(".D3Graph")
+      
+  let svg = d3.select(".D3Graph")
     .append("svg")
   const g = svg.append("g")
       .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
   // X Axis
-	const xAxisGroup = g.append("g")
-	    .attr("class", "x axis");
+  const xAxisGroup = g.append("g")
+      .attr("class", "x axis");
 
-	// Y Axis
-	const yAxisGroup = g.append("g")
-	    .attr("class", "y axis");
+  // Y Axis
+  const yAxisGroup = g.append("g")
+      .attr("class", "y axis");
 
-	// X Scale
-	const xScale = d3.scaleBand();
+  // X Scale
+  const xScale = d3.scaleBand();
 
-	// Y Scale
-	const yScale = d3.scaleLinear();
+  // Y Scale
+  const yScale = d3.scaleLinear();
 
-	// X Label
-	const xLabel = g.append("text")
+  // X Label
+  const xLabel = g.append("text")
 
-	// Y Label
-	const yLabel = g.append("text")
+  // Y Label
+  const yLabel = g.append("text")
 
-	const timer = d3.interval(()=>{
-	})
-	const interval = d3.interval(()=> {
+  const timer = d3.interval(()=>{
+  })
+  const interval = d3.interval(()=> {
     update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
-		// flag = !flag
-	}, 5000)
-	update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
+    flag = !flag
+  }, 5000)
+  update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
 
-	return [interval, timer]
+  return [interval, timer]
 }
 
 const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel) => {
@@ -73,7 +73,7 @@ const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yL
     .range([0, width])
     .padding(0.2)
   yScale
-    .domain([0, d3.max(data, function(d) { return d.dataset[value] })])
+    .domain([0, d3.max(data, function(d) { return d.dataset[0][value] })])
     .range([height, 0])
 
   // X Axis
@@ -116,10 +116,10 @@ const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yL
       .transition(transition)
         .attr("x", function(d){ return xScale(d.ticker) })
         .attr("width", xScale.bandwidth)
-        .attr("y", function(d){ return yScale(d[value]); })
-        .attr("height", function(d){ return height - yScale(d[value]); })
+        .attr("y", function(d){ return yScale(d.dataset[0][value]); })
+        .attr("height", function(d){ return height - yScale(d.dataset[0][value]); })
 
-    const label = flag ? "Open" : "Close";
+    const label = flag ? "Opening Price" : "Closing Price";
     yLabel.text(label);
 }
 

@@ -130,7 +130,6 @@ class App extends Component {
   }
 
   render() {
-    console.log(this.state.graphs)
     let myStocks = []
     const {graphs, graphIndex, allowNav} = this.state
     const stockLists = graphs.map(graph => {return graph.stocks})
