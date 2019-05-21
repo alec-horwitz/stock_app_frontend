@@ -8,12 +8,15 @@ let interval = null
 let timer = null
 
 class Graph extends Component {
+  state = {
+    interval: null,
+    timer: null
+  }
   componentDidMount() {
-    let graph=JSON.parse(JSON.stringify(this.props.graph))
-    graph.stocks = graph.stocks.filter(function(stock) { return stock.visible; })
-    if (graph.type === "Line Graph") {
+    let {type} = this.props.graph
+    if (type === "Line Graph") {
       this.renderGraph(LineGraph)
-    } else if (graph.type === "Scatter Plot") {
+    } else if (type === "Scatter Plot") {
       this.renderGraph(ScatterGraph)
     } else {
       this.renderGraph(BarGraph)
@@ -22,29 +25,31 @@ class Graph extends Component {
 
   renderGraph = (writeGraph, graph=JSON.parse(JSON.stringify(this.props.graph)), i=0) => {
     if (i < graph.stocks.length) {
-      fetch("https://www.quandl.com/api/v3/datasets/WIKI/"+graph.stocks[i].ticker+"/data.json?api_key="+API_KEY)
-      .then(res => res.json())
-      .then(res => {
-        graph.stocks[i].dataset = res.dataset_data.data
+      if (graph.stocks[i].visible) {
+        fetch("https://www.quandl.com/api/v3/datasets/WIKI/"+graph.stocks[i].ticker+"/data.json?api_key="+API_KEY)
+        .then(res => res.json())
+        .then(res => {
+          graph.stocks[i].dataset = res.dataset_data.data
+          this.renderGraph(writeGraph, graph, i+1)
+        })
+      } else {
         this.renderGraph(writeGraph, graph, i+1)
-      })
+      }
     } else if (graph.stocks.length) {
       const updates = writeGraph(graph)
-      interval = updates[0]
-      timer = updates[1]
-      this.props.graphCUD(graph)
+      this.setState({interval:updates[0], timer:updates[1]})
     }
   }
 
   componentWillUnmount() {
+    const {interval, timer} = this.state
     if (interval) {
       interval.stop()
-      interval = null
       timer.stop()
-      timer = null
     }
   }
   render() {
+    const {interval} = this.state
     return (
       <div className="Graph">
         <div className="titleButtons">
