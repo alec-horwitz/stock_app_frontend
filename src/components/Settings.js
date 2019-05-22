@@ -1,69 +1,13 @@
 import React, { Component } from 'react';
+import {API_KEY} from '../Secrets';
 import UUID from 'uuid';
-
-const sampleStocks = [
-  {
-    "ticker": "AAPL",
-    "revenue": "1124",
-    "price": "19342"
-  },
-  {
-    "ticker": "BRK.A",
-    "revenue": "2364",
-    "price": "17443"
-  },
-  {
-    "ticker": "GOOG",
-    "revenue": "3656",
-    "price": "34213"
-  },
-  {
-    "ticker": "HOG",
-    "revenue": "14323",
-    "price": "50321"
-  },
-  {
-    "ticker": "HPQ",
-    "revenue": "2657",
-    "price": "54273"
-  },
-  {
-    "ticker": "INTC",
-    "revenue": "33456",
-    "price": "24739"
-  },
-  {
-    "ticker": "MMM",
-    "revenue": "17556",
-    "price": "59023"
-  },
-  {
-    "ticker": "MSFT",
-    "revenue": "29865",
-    "price": "39482"
-  },
-  {
-    "ticker": "TGT",
-    "revenue": "38535",
-    "price": "18729"
-  },
-  {
-    "ticker": "TXN",
-    "revenue": "13664",
-    "price": "58362"
-  },
-  {
-    "ticker": "WMT",
-    "revenue": "29734",
-    "price": "48250"
-  }
-]
 
 class Settings extends Component {
   state = {
     graph: this.props.graph ? JSON.parse(JSON.stringify(this.props.graph)) : {name:"", type:"Value 1", stocks:[]},
     stockTicker: "",
-    stockVisible: true
+    stockVisible: true,
+    allowNav: false
   }
 
   handleOnChange = (e) => {
@@ -78,12 +22,12 @@ class Settings extends Component {
   handleStock = (atrib, stock, index) => {
       if (atrib === "ticker") {return (<li key={UUID()}>{stock[atrib]}</li>)} //
       if (stock[atrib] === true) {
-        return (<li key={UUID()}><button onClick={() => this.alterStocks(stock, index)} disabled={this.props.navigation.val} >√</button></li>)
+        return (<li key={UUID()}><button onClick={() => this.alterStocks(stock, index)} disabled={this.state.allowNav} >√</button></li>)
       }
       if (stock[atrib] === false) {
-        return (<li key={UUID()}><button onClick={() => this.alterStocks(stock, index)} disabled={this.props.navigation.val} >X</button></li>)
+        return (<li key={UUID()}><button onClick={() => this.alterStocks(stock, index)} disabled={this.state.allowNav} >X</button></li>)
       }
-      if (atrib === "Add/Remove") {return (<li key={UUID()}><button onClick={() => this.alterStocks(null, index)} disabled={this.props.navigation.val} >-</button></li>)}
+      if (atrib === "Add/Remove") {return (<li key={UUID()}><button onClick={() => this.alterStocks(null, index)} disabled={this.state.allowNav} >-</button></li>)}
       return null
   }
 
@@ -96,38 +40,35 @@ class Settings extends Component {
       setTimeout(() => {alert("ERROR: That stock ticker is already in this graph!");})
       console.error("That stock ticker is already in this graph!")
       this.setState({graph, stockTicker:"", stockVisible: true})
-      return null
     } else {
       const myData = this.props.myStocks.find(function(s) {
         return ticker === s.ticker
       });
       if (myData) {
-        graph.stocks = [...graph.stocks, {...stock, ...myData, id: UUID()}]
+        graph.stocks = [...graph.stocks, {ticker:myData.ticker, visible:stock.visible, id: UUID()}]
         this.setState({graph, stockTicker:"", stockVisible: true})
-        return myData
       } else {
-        this.props.navigation.toggle()
-        setTimeout(() => {alert("Checking our database for that stock data. This may take a few seconds.");})
-        const newData = sampleStocks.find(function(s) {
-          return ticker === s.ticker
-        });
-        setTimeout(() => {
-          this.props.navigation.toggle()
-          if (newData) {
-            graph.stocks = [...graph.stocks, {...stock, ...newData, id: UUID()}]
-            this.setState({graph, stockTicker:"", stockVisible: true})
+        this.setState({allowNav: !this.state.allowNav})
+        setTimeout(() => {alert("Checking the quandl database for that stock data. This may take a few seconds.");})
+
+        fetch("https://www.quandl.com/api/v3/datasets/WIKI/"+ticker+"/data.json?api_key="+API_KEY)
+        .then(res => res.json())
+        .then(res => {
+          if (res.dataset_data) {
+            graph.stocks = [...graph.stocks, {visible:stock.visible, ticker, id:UUID()}]
+            this.setState({graph, stockTicker:"", stockVisible: true, allowNav: !this.state.allowNav})
           } else {
+            this.setState({stockTicker:"", allowNav: !this.state.allowNav})
             setTimeout(() => {alert("ERROR: Could not find that stock ticker in our database!");})
-            console.error("Could not find that stock ticker in our database!")
-            this.setState({graph, stockTicker:"", stockVisible: true})
           }
-        }, 10000)
+        }).catch(error => console.error(error));
       }
     }
   }
 
+
   alterStocks = (stock, index) => {
-    let graph = this.state.graph
+    let graph = JSON.parse(JSON.stringify(this.state.graph))
     if (index === null) {
       if (stock) {
         this.addStockData(stock, graph)
@@ -154,8 +95,8 @@ class Settings extends Component {
     return (
       <div className="Settings">
         <div className="titleButtons">
-          <button onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} disabled={this.props.navigation.val} >Cancel</button>
-          <button onClick={()=>this.props.graphCUD(this.state.graph, null)} disabled={this.props.navigation.val} >Save</button>
+          <button onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} disabled={this.state.allowNav} >Cancel</button>
+          <button onClick={()=>this.props.graphCUD(this.state.graph, null)} disabled={this.state.allowNav} >Save</button>
         </div>
         <h1>Settings</h1>
         <br/>
@@ -167,11 +108,11 @@ class Settings extends Component {
         className="graphName"
         onChange={this.alterGraph}
         value={this.state.graph ? this.state.graph.name : ""}
-        disabled={this.props.navigation.val}
+        disabled={this.state.allowNav}
         />
         <br/>
         <h4>Graph</h4>
-        Type: <select name="type" onChange={this.alterGraph} value={this.state.graph ? this.state.graph.type : null} disabled={this.props.navigation.val} >
+        Type: <select name="type" onChange={this.alterGraph} value={this.state.graph ? this.state.graph.type : null} disabled={this.state.allowNav} >
           <option>Line Graph</option>
           <option>Bar Chart</option>
           <option>Scatter Plot</option>
@@ -197,7 +138,7 @@ class Settings extends Component {
           <ul>
             <li className="column-header">visible</li>
             {this.handleStocks("visible")}
-            <li><button onClick={() => this.setState({stockVisible: !this.state.stockVisible})} disabled={this.props.navigation.val} >
+            <li><button onClick={() => this.setState({stockVisible: !this.state.stockVisible})} disabled={this.state.allowNav} >
             {this.state.stockVisible === true? "√" : "X"}
             </button></li>
           </ul>
@@ -205,14 +146,14 @@ class Settings extends Component {
             <li className="column-header">Add/Remove</li>
             {this.handleStocks("Add/Remove")}
             <li>
-              <button onClick={() => this.alterStocks({ticker: this.state.stockTicker, visible: this.state.stockVisible}, null)} disabled={this.props.navigation.val}>+</button>
+              <button onClick={() => this.alterStocks({ticker: this.state.stockTicker, visible: this.state.stockVisible}, null)} disabled={this.state.allowNav}>+</button>
             </li>
           </ul>
         </div>
         <br/>
         {this.props.graph ? 
           <div><h4>Danger Zone</h4>
-          <button onClick={()=>this.props.graphCUD()} disabled={this.props.navigation.val} >Delete Graph</button> </div>:
+          <button onClick={()=>this.props.graphCUD()} disabled={this.state.allowNav} >Delete Graph</button> </div>:
           null}
       </div>
     );

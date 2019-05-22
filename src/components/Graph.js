@@ -4,9 +4,6 @@ import LineGraph from '../D3/LineGraph';
 import ScatterGraph from '../D3/ScatterGraph';
 import {API_KEY} from '../Secrets';
 
-let interval = null
-let timer = null
-
 class Graph extends Component {
   state = {
     interval: null,

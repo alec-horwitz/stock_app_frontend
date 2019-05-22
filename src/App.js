@@ -141,7 +141,7 @@ class App extends Component {
       <div className="App">
         {this.state.page === "Menu" ? <Menu allowNav={allowNav} graphs={graphs} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Graph" ? <Graph graphCUD={this.graphCUD} graph={graphs[graphIndex]} graphs={graphs} handleOnClick={this.handleOnClick} /> : null}
-        {this.state.page === "Settings" ? <Settings navigation={{toggle: this.toggleNavigation, val: allowNav}} myStocks={myStocks} graph={graphs[graphIndex]} graphIndex={graphIndex} graphCUD={this.graphCUD} parent={this.state.parent} handleOnClick={this.handleOnClick} /> : null}
+        {this.state.page === "Settings" ? <Settings myStocks={myStocks} graph={graphs[graphIndex]} graphIndex={graphIndex} graphCUD={this.graphCUD} parent={this.state.parent} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Suggestions" ? <Suggestions graph={graphs[graphIndex]} handleOnClick={this.handleOnClick} /> : null}
 
       </div>
