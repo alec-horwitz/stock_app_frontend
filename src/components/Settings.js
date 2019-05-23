@@ -22,12 +22,12 @@ class Settings extends Component {
   handleStock = (atrib, stock, index) => {
       if (atrib === "ticker") {return (<li key={UUID()}>{stock[atrib]}</li>)} //
       if (stock[atrib] === true) {
-        return (<li key={UUID()}><button onClick={() => this.alterStocks(stock, index)} disabled={this.state.allowNav} >√</button></li>)
+        return (<li key={UUID()}><button className="button"  onClick={() => this.alterStocks(stock, index)} disabled={this.state.allowNav} >√</button></li>)
       }
       if (stock[atrib] === false) {
-        return (<li key={UUID()}><button onClick={() => this.alterStocks(stock, index)} disabled={this.state.allowNav} >X</button></li>)
+        return (<li key={UUID()}><button className="button" onClick={() => this.alterStocks(stock, index)} disabled={this.state.allowNav} >X</button></li>)
       }
-      if (atrib === "Add/Remove") {return (<li key={UUID()}><button onClick={() => this.alterStocks(null, index)} disabled={this.state.allowNav} >-</button></li>)}
+      if (atrib === "Add/Remove") {return (<li key={UUID()}><button className="button" onClick={() => this.alterStocks(null, index)} disabled={this.state.allowNav} >-</button></li>)}
       return null
   }
 
@@ -95,8 +95,8 @@ class Settings extends Component {
     return (
       <div className="Settings">
         <div className="titleButtons">
-          <button onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} disabled={this.state.allowNav} >Cancel</button>
-          <button onClick={()=>this.props.graphCUD(this.state.graph, null)} disabled={this.state.allowNav} >Save</button>
+          <button className="button" onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} disabled={this.state.allowNav} >Cancel</button>
+          <button className="button" onClick={()=>this.props.graphCUD(this.state.graph, null)} disabled={this.state.allowNav} >Save</button>
         </div>
         <h1>Settings</h1>
         <br/>
@@ -105,14 +105,14 @@ class Settings extends Component {
         type="text"
         name="name"
         id="graphName"
-        className="graphName"
+        className="graphName input"
         onChange={this.alterGraph}
         value={this.state.graph ? this.state.graph.name : ""}
         disabled={this.state.allowNav}
         />
         <br/>
         <h4>Graph</h4>
-        Type: <select name="type" onChange={this.alterGraph} value={this.state.graph ? this.state.graph.type : null} disabled={this.state.allowNav} >
+        Type: <select className="input" name="type" onChange={this.alterGraph} value={this.state.graph ? this.state.graph.type : null} disabled={this.state.allowNav} >
           <option>Line Graph</option>
           <option>Bar Chart</option>
           <option>Scatter Plot</option>
@@ -128,7 +128,7 @@ class Settings extends Component {
               type="text"
               name="stockTicker"
               id="stockTicker"
-              className="stockTicker"
+              className="stockTicker input"
               placeholder="New Ticker"
               value={this.state.stockTicker}
               onChange={this.handleOnChange}
@@ -138,7 +138,7 @@ class Settings extends Component {
           <ul>
             <li className="column-header">visible</li>
             {this.handleStocks("visible")}
-            <li><button onClick={() => this.setState({stockVisible: !this.state.stockVisible})} disabled={this.state.allowNav} >
+            <li><button className="button" onClick={() => this.setState({stockVisible: !this.state.stockVisible})} disabled={this.state.allowNav} >
             {this.state.stockVisible === true? "√" : "X"}
             </button></li>
           </ul>
@@ -146,14 +146,14 @@ class Settings extends Component {
             <li className="column-header">Add/Remove</li>
             {this.handleStocks("Add/Remove")}
             <li>
-              <button onClick={() => this.alterStocks({ticker: this.state.stockTicker, visible: this.state.stockVisible}, null)} disabled={this.state.allowNav}>+</button>
+              <button className="button" onClick={() => this.alterStocks({ticker: this.state.stockTicker, visible: this.state.stockVisible}, null)} disabled={this.state.allowNav}>+</button>
             </li>
           </ul>
         </div>
         <br/>
         {this.props.graph ? 
           <div><h4>Danger Zone</h4>
-          <button onClick={()=>this.props.graphCUD()} disabled={this.state.allowNav} >Delete Graph</button> </div>:
+          <button className="button" onClick={()=>this.props.graphCUD()} disabled={this.state.allowNav} >Delete Graph</button> </div>:
           null}
       </div>
     );

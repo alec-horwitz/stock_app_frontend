@@ -5,7 +5,7 @@ class Suggestions extends Component {
 	return (
 	  <div className="Suggestions">
 		<div className="titleButtons">
-		  <button onClick={()=>this.props.handleOnClick("Graph", "Suggestions")} >Back</button>
+		  <button className="button" onClick={()=>this.props.handleOnClick("Graph", "Suggestions")} >Back</button>
 		</div>
 		<br/>
 		<h1>Suggestions</h1>

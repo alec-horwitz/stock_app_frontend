@@ -50,13 +50,13 @@ class Graph extends Component {
     return (
       <div className="Graph">
         <div className="titleButtons">
-          <button onClick={()=>this.props.handleOnClick("Menu", "Graph", null)} >Back</button>
-          <button onClick={()=>this.props.handleOnClick("Settings", "Graph")} >Settings</button>
+          <button className="button" onClick={()=>this.props.handleOnClick("Menu", "Graph", null)} >Back</button>
+          <button className="button" onClick={()=>this.props.handleOnClick("Settings", "Graph")} >Settings</button>
         </div>
         <h1>{this.props.graph.name}</h1>
         {interval ? null : <p>Loading...</p>}
         <div className="D3Graph"></div>
-        {interval ? <button className="SuggestionsButton" onClick={()=>this.props.handleOnClick("Suggestions", "Graph")} >See Suggestions</button> : null} 
+        {interval ? <button className="SuggestionsButton button" onClick={()=>this.props.handleOnClick("Suggestions", "Graph")} >See Suggestions</button> : null} 
       </div>
     );
   }

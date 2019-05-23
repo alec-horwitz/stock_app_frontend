@@ -33,3 +33,41 @@ li {
   margin-left: -4em;
   margin-bottom: -3em;
 }
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  box-shadow: 0 0 0.2em 0.001em #4CAF50;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.button:hover {
+  background-color: white; 
+  color: #4CAF50; 
+  border: none;
+}
+
+.input {
+  background-color: white; 
+  box-shadow: 0 0 0.2em 0.001em #4CAF50;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.GraphButton {
+  background-color: #ffffff; 
+  border: none;
+  color: #4CAF50; 
+  text-align: center;
+}
+
+.GraphButton:hover {
+  background-color: #4CAF50;
+  box-shadow: 0 0 0.2em 0.001em #4CAF50;
+  color: white;
+  border: none;
+}
+
