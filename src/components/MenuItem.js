@@ -6,9 +6,9 @@ class Menu extends Component {
   render() {
     return (
       <div className="MenuItem">
-        <p>{this.props.graph.name}</p>
         <button className="GraphButton" onClick={()=>this.props.handleOnClick("Graph", "Menu", this.props.index)} disabled={this.props.allowNav}>
-	        <img alt={this.props.graph.name+" thumbnail"} src={graphImg} height="200rem" width="200rem"/>
+          <div className="imgTextPos" ><h3 class="imgText">{this.props.graph.name}</h3></div>
+	        <img className="graphImg" alt={this.props.graph.name+" thumbnail"} src={graphImg} height="200rem" width="200rem"/>
         </button>
         <br/>
       </div>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Nav from './Nav';
 import BarGraph from '../D3/BarGraph';
 import LineGraph from '../D3/LineGraph';
 import ScatterGraph from '../D3/ScatterGraph';
@@ -49,10 +50,10 @@ class Graph extends Component {
     const {interval} = this.state
     return (
       <div className="Graph">
-        <div className="titleButtons">
-          <button className="button" onClick={()=>this.props.handleOnClick("Menu", "Graph", null)} >Back</button>
-          <button className="button" onClick={()=>this.props.handleOnClick("Settings", "Graph")} >Settings</button>
-        </div>
+        <Nav>
+          <button className="titleButtons" onClick={()=>this.props.handleOnClick("Menu", "Graph", null)} >Back</button>
+          <button className="titleButtons" onClick={()=>this.props.handleOnClick("Settings", "Graph")} >Settings</button>
+        </Nav>
         <h1>{this.props.graph.name}</h1>
         {interval ? null : <p>Loading...</p>}
         <div className="D3Graph"></div>

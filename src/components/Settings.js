@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Nav from './Nav';
 import {API_KEY} from '../Secrets';
 import UUID from 'uuid';
 
@@ -94,10 +95,10 @@ class Settings extends Component {
   render() {
     return (
       <div className="Settings">
-        <div className="titleButtons">
-          <button className="button" onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} disabled={this.state.allowNav} >Cancel</button>
-          <button className="button" onClick={()=>this.props.graphCUD(this.state.graph, null)} disabled={this.state.allowNav} >Save</button>
-        </div>
+        <Nav>
+          <button className="titleButtons" onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} disabled={this.state.allowNav} >Cancel</button>
+          <button className="titleButtons" onClick={()=>this.props.graphCUD(this.state.graph, null)} disabled={this.state.allowNav} >Save</button>
+        </Nav>
         <h1>Settings</h1>
         <br/>
         <h4>Genral</h4>

@@ -79,7 +79,9 @@ class App extends Component {
     graphIndex: null,
     page: "Menu",
     parent: null,
-    allowNav: true
+    allowNav: true,
+    navRight: "null",
+    navLeft: "null"
   }
 
   componentDidMount() {
@@ -139,6 +141,8 @@ class App extends Component {
 
     return (
       <div className="App">
+        <br/>
+        <br/>
         {this.state.page === "Menu" ? <Menu allowNav={allowNav} graphs={graphs} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Graph" ? <Graph graphCUD={this.graphCUD} graph={graphs[graphIndex]} graphs={graphs} handleOnClick={this.handleOnClick} /> : null}
         {this.state.page === "Settings" ? <Settings myStocks={myStocks} graph={graphs[graphIndex]} graphIndex={graphIndex} graphCUD={this.graphCUD} parent={this.state.parent} handleOnClick={this.handleOnClick} /> : null}

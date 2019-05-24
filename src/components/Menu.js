@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Nav from './Nav';
 import MenuItem from '../components/MenuItem';
 import UUID from 'uuid';
 
@@ -13,13 +14,14 @@ class Menu extends Component {
   render() {
     return (
       <div className="Menu">
+        <Nav/>
         <h1>Main Menu</h1>
         {this.getGraphs()}
         <br/>
-        <p>New Graph</p>
-        <button className="GraphButton" onClick={()=>this.props.handleOnClick("Settings", "Menu", null)} disabled={this.props.allowNav}>
-          <img alt="New Graph Button" src={plus} height="100rem" width="100rem"/>
-        </button>
+        <button className={this.props.allowNav ? "newGraphDisabled" : "newGraphButton"} onClick={()=>this.props.handleOnClick("Settings", "Menu", null)} disabled={this.props.allowNav}>
+          <div className="newGraphButtonTextPos" ><h5 class="newGraphButtonText">{this.props.allowNav ? "Loading..." : "New Graph"}</h5></div>
+          <img className="newGraphSymbol" alt={"New Graph Button"} src={plus} height="100rem" width="100rem"/>
+        </button> 
       </div>
     );
   }

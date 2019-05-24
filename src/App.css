@@ -2,6 +2,21 @@
   text-align: center;
 }
 
+.nav {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 3em;
+  top: -0.01em;
+  left: -0.01em;
+  color: white;
+  background-color: #4CAF50;
+  box-shadow: 0 0 1em 0.001em #4CAF50;
+  z-index: 999;
+}
+
 .column-stack {
   display: flex;
   justify-content: center;
@@ -36,8 +51,8 @@ li {
 
 .button {
   background-color: #4CAF50;
-  border: none;
   color: white;
+  border: none;
   box-shadow: 0 0 0.2em 0.001em #4CAF50;
   border-radius: 12px;
   text-align: center;
@@ -46,6 +61,25 @@ li {
 .button:hover {
   background-color: white; 
   color: #4CAF50; 
+  border: none;
+}
+
+.titleButtons {
+  position: relative;
+  width: 5em;
+  justify-content: center;
+  background-color: white; 
+  color: #4CAF50; 
+  box-shadow: 0 0 0.2em 0.001em #4CAF50;
+  border: none;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.titleButtons:hover {
+  background-color: #4CAF50;
+  color: white;
+  box-shadow: 0 0 0.2em 0.001em white;
   border: none;
 }
 
@@ -60,7 +94,7 @@ li {
 .GraphButton {
   background-color: #ffffff; 
   border: none;
-  color: #4CAF50; 
+  color: black; 
   text-align: center;
 }
 
@@ -69,5 +103,71 @@ li {
   box-shadow: 0 0 0.2em 0.001em #4CAF50;
   color: white;
   border: none;
+  border-radius: 32px;
 }
 
+.graphImg {
+  opacity: 0.5;
+}
+
+.imgTextPos {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.imgText {
+  position: absolute;
+  top: 5rem;
+}
+
+.newGraphButton {
+  background-color: #ffffff; 
+  border: none;
+  color: white;
+  text-align: center;
+}
+
+.newGraphDisabled {
+  background-color: #ffffff; 
+  border: none;
+}
+
+.newGraphDisabled .newGraphButtonText {
+  color: black;
+  position: absolute;
+  font-size: 1em;
+  top: -3rem;
+}
+
+.newGraphDisabled .newGraphSymbol{
+  opacity: 0.5;
+}
+
+.newGraphButton:hover {
+  box-shadow: 0 0 0.2em 0.001em #4CAF50;
+  border: none;
+  color: #4CAF50;
+  border-radius: 32px;
+}
+
+.newGraphButtonTextPos {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.newGraphButton .newGraphButtonText {
+  opacity: 0;
+  position: absolute;
+  font-size: 1em;
+  top: 1.5rem;
+}
+
+.newGraphButton:hover .newGraphSymbol{
+  opacity: 0;
+}
+
+.newGraphButton:hover .newGraphButtonText{
+  opacity: 1;
+}

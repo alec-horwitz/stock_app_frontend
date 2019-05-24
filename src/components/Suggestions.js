@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import Nav from './Nav';
 
 class Suggestions extends Component {
   render() {
 	return (
 	  <div className="Suggestions">
-		<div className="titleButtons">
-		  <button className="button" onClick={()=>this.props.handleOnClick("Graph", "Suggestions")} >Back</button>
-		</div>
+	  	<Nav>
+		  <button className="titleButtons" onClick={()=>this.props.handleOnClick("Graph", "Suggestions")} >Back</button>
+		  <button className="titleButtons" style={{visibility: "hidden"}} >hidden</button>
+        </Nav>
 		<br/>
 		<h1>Suggestions</h1>
 		<br/>
