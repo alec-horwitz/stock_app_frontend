@@ -34,9 +34,11 @@ const LineGraph = (settings) => {
   const yLabel = g.append("text")
 
   const timer = d3.interval(()=>{
-  })
+    for (var i = 16; i > 0; i--) {
+      update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
+    }
+  }, 1000)
   const interval = d3.interval(()=> {
-    update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
     flag = !flag
   }, 5000)
   update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
