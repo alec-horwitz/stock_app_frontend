@@ -34,9 +34,11 @@ const ScatterGraph = (settings) => {
   const yLabel = g.append("text")
 
   const timer = d3.interval(()=>{
-  })
+    for (var i = 16; i > 0; i--) {
+      update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
+    }
+  }, 1000)
   const interval = d3.interval(()=> {
-    update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
     flag = !flag
   }, 5000)
   update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
@@ -92,32 +94,28 @@ const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yL
   yAxisGroup.call(yAxisCall);
 
   // JOIN new data with old elements.
-  const rects = g.selectAll("rect")
+  const rects = g.selectAll("circle")
       .data(data);
 
   // EXIT old elements not present in new data.
   rects.exit()
     .attr("fill", "red")
     .transition(transition)
-    .attr("y", yScale[0])
-    .attr("height", 0)
+    .attr("cy", yScale[0])
     .remove();
 
   // ENTER new elements present in new data.
   rects.enter()
-    .append("rect")
+    .append("circle")
       .attr("fill", "grey")
-      .attr("y", yScale[0])
-      .attr("height", 0)
-      .attr("x", function(d){ return xScale(d.ticker) })
-      .attr("width", xScale.bandwidth)
+      .attr("cy", yScale[0])
+      .attr("cx", function(d){ return xScale(d.ticker) + xScale.bandwidth()/2 })
+      .attr("r", 5)
       // AND UPDATE old elements present in new data
       .merge(rects)
       .transition(transition)
-        .attr("x", function(d){ return xScale(d.ticker) })
-        .attr("width", xScale.bandwidth)
-        .attr("y", function(d){ return yScale(d.dataset[0][value]); })
-        .attr("height", function(d){ return height - yScale(d.dataset[0][value]); })
+        .attr("cx", function(d){ return xScale(d.ticker) + xScale.bandwidth()/2 })
+        .attr("cy", function(d){ return yScale(d.dataset[0][value]); })
 
     const label = flag ? "Opening Price" : "Closing Price";
     yLabel.text(label);

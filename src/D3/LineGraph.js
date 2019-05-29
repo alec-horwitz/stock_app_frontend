@@ -2,7 +2,7 @@ import * as d3 from "d3";
 
 let flag = true
 const margin = {left:100, right:10, top:10, bottom:100}
-const transition = d3.transition().duration(750);
+const transition = d3.transition().duration(500);
 
 const LineGraph = (settings) => {
   const data = JSON.parse(JSON.stringify(settings.stocks)).filter(function(stock) { return stock.visible; })
