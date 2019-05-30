@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Nav from './Nav';
-import {API_KEY} from '../Secrets';
+// import {process} from '../Secrets';
 import UUID from 'uuid';
 
 class Settings extends Component {
@@ -52,7 +52,7 @@ class Settings extends Component {
         this.setState({allowNav: !this.state.allowNav})
         setTimeout(() => {alert("Checking the quandl database for that stock data. This may take a few seconds.");})
 
-        fetch("https://www.quandl.com/api/v3/datasets/WIKI/"+ticker+"/data.json?api_key="+API_KEY)
+        fetch("https://www.quandl.com/api/v3/datasets/WIKI/"+ticker+"/data.json?api_key="+process.env.API_KEY)
         .then(res => res.json())
         .then(res => {
           if (res.dataset_data) {
