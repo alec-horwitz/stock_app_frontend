@@ -3,6 +3,8 @@ import Nav from './Nav';
 // import {process} from '../Secrets';
 import UUID from 'uuid';
 
+console.log(process.env.API_KEY)
+
 class Settings extends Component {
   state = {
     graph: this.props.graph ? JSON.parse(JSON.stringify(this.props.graph)) : {name:"", type:"Value 1", stocks:[]},

@@ -11,7 +11,6 @@ class Nav extends Component {
   }
 
   render() {
-    console.log(this.props.children)
     return (
       <div className="nav" >
         {this.getChild(0)}

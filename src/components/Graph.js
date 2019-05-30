@@ -5,6 +5,8 @@ import LineGraph from '../D3/LineGraph';
 import ScatterGraph from '../D3/ScatterGraph';
 // import {process} from '../Secrets';
 
+console.log(process.env.API_KEY)
+
 class Graph extends Component {
   state = {
     interval: null,
