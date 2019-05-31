@@ -19,7 +19,7 @@ class Menu extends Component {
         {this.getGraphs()}
         <br/>
         <button className={this.props.allowNav ? "newGraphDisabled" : "newGraphButton"} onClick={()=>this.props.handleOnClick("Settings", "Menu", null)} disabled={this.props.allowNav}>
-          <div className="newGraphButtonTextPos" ><h5 class="newGraphButtonText">{this.props.allowNav ? "Loading..." : "New Graph"}</h5></div>
+          <div className="newGraphButtonTextPos" ><h5 className="newGraphButtonText">{this.props.allowNav ? "Loading..." : "New Graph"}</h5></div>
           <img className="newGraphSymbol" alt={"New Graph Button"} src={plus} height="100rem" width="100rem"/>
         </button> 
       </div>

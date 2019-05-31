@@ -3,9 +3,9 @@ import Nav from './Nav';
 import BarGraph from '../D3/BarGraph';
 import LineGraph from '../D3/LineGraph';
 import ScatterGraph from '../D3/ScatterGraph';
-// import {process} from '../Secrets';
+import {API_KEY} from '../Secrets';
 
-console.log(process.env.API_KEY)
+console.log(API_KEY)
 
 class Graph extends Component {
   state = {
@@ -26,7 +26,7 @@ class Graph extends Component {
   renderGraph = (writeGraph, graph=JSON.parse(JSON.stringify(this.props.graph)), i=0) => {
     if (i < graph.stocks.length) {
       if (graph.stocks[i].visible) {
-        fetch("https://www.quandl.com/api/v3/datasets/WIKI/"+graph.stocks[i].ticker+"/data.json?api_key="+process.env.API_KEY)
+        fetch("https://www.quandl.com/api/v3/datasets/WIKI/"+graph.stocks[i].ticker+"/data.json?api_key="+API_KEY)
         .then(res => res.json())
         .then(res => {
           graph.stocks[i].dataset = res.dataset_data.data
