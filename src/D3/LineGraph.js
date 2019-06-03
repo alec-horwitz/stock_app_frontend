@@ -2,7 +2,11 @@ import * as d3 from "d3";
 
 let flag = true
 const margin = {left:100, right:10, top:10, bottom:100}
-const transition = d3.transition().duration(500);
+const transition = d3.transition().duration(10);
+
+let windowInnerHeight = window.innerHeight
+let windowInnerWidth = window.innerWidth
+let changeDetected = false
 
 const LineGraph = (settings) => {
   const data = JSON.parse(JSON.stringify(settings.stocks)).filter(function(stock) { return stock.visible; })
@@ -34,12 +38,14 @@ const LineGraph = (settings) => {
   const yLabel = g.append("text")
 
   const timer = d3.interval(()=>{
-    for (var i = 16; i > 0; i--) {
+    if (document.visibilityState === "visible") {
       update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
     }
   }, 1000)
   const interval = d3.interval(()=> {
-    flag = !flag
+    if (document.visibilityState === "visible") {
+      flag = !flag
+    }
   }, 5000)
   update(data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel)
 
@@ -47,8 +53,29 @@ const LineGraph = (settings) => {
 }
 
 const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel) => {
-  const height = window.innerHeight - margin.top - margin.bottom - 100
-  const width = window.innerWidth - margin.left - margin.right - 15
+
+  if ((windowInnerHeight === window.innerHeight) && (windowInnerWidth === window.innerWidth)) {
+    changeDetected = false
+  }
+
+  const isRotateLandscape = ((windowInnerHeight > window.innerHeight) && (windowInnerWidth < window.innerWidth))
+  const isRotatePortrait = ((windowInnerHeight < window.innerHeight) && (windowInnerWidth > window.innerWidth))
+
+  if (!changeDetected && (isRotateLandscape || isRotatePortrait)) {
+    console.log("Rotate to Landscape: ", isRotateLandscape, "\nRotate to portrait: ", isRotatePortrait)
+    console.log("Previous height and width: ", windowInnerHeight, windowInnerWidth)
+    changeDetected = true
+    const swap = windowInnerHeight
+    windowInnerHeight = windowInnerWidth
+    windowInnerWidth = swap
+    console.log("Previous height and width: ", windowInnerHeight, windowInnerWidth)
+  } else {
+    windowInnerHeight = window.innerHeight
+    windowInnerWidth = window.innerWidth
+  }
+
+  const height = windowInnerHeight - margin.top - margin.bottom - 120
+  const width = windowInnerWidth - margin.left - margin.right - 15
   const value = flag ? 1 : 4;
 
   svg
@@ -104,6 +131,7 @@ const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yL
     .attr("y", yScale[0])
     .attr("height", 0)
     .remove();
+
 
   // ENTER new elements present in new data.
   rects.enter()
