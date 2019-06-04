@@ -62,13 +62,10 @@ const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yL
   const isRotatePortrait = ((windowInnerHeight < window.innerHeight) && (windowInnerWidth > window.innerWidth))
 
   if (!changeDetected && (isRotateLandscape || isRotatePortrait)) {
-    console.log("Rotate to Landscape: ", isRotateLandscape, "\nRotate to portrait: ", isRotatePortrait)
-    console.log("Previous height and width: ", windowInnerHeight, windowInnerWidth)
     changeDetected = true
     const swap = windowInnerHeight
     windowInnerHeight = windowInnerWidth
     windowInnerWidth = swap
-    console.log("Previous height and width: ", windowInnerHeight, windowInnerWidth)
   } else {
     windowInnerHeight = window.innerHeight
     windowInnerWidth = window.innerWidth

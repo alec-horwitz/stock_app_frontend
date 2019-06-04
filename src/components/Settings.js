@@ -3,8 +3,6 @@ import Nav from './Nav';
 import {API_KEY} from '../Secrets';
 import UUID from 'uuid';
 
-console.log(API_KEY)
-
 class Settings extends Component {
   state = {
     graph: this.props.graph ? JSON.parse(JSON.stringify(this.props.graph)) : {name:"", type:"Value 1", stocks:[]},
@@ -99,7 +97,7 @@ class Settings extends Component {
       <div className="Settings">
         <Nav>
           <button className="titleButtons" onClick={()=>this.props.handleOnClick(this.props.parent, "Settings")} disabled={this.state.allowNav} >Cancel</button>
-          <button className="titleButtons" onClick={()=>this.props.graphCUD(this.state.graph, null)} disabled={this.state.allowNav} >Save</button>
+          <button className="titleButtons" onClick={()=>this.props.graphCUD(this.state.graph)} disabled={this.state.allowNav} >Save</button>
         </Nav>
         <h1>Settings</h1>
         <br/>

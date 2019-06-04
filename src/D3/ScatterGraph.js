@@ -55,22 +55,16 @@ const ScatterGraph = (settings) => {
 const update = (data, svg, g, xAxisGroup, yAxisGroup, xScale, yScale, xLabel, yLabel) => {
   if ((windowInnerHeight === window.innerHeight) && (windowInnerWidth === window.innerWidth)) {
     changeDetected = false
-  } else {
-    console.log("Previous height and width: ", windowInnerHeight, windowInnerWidth)
-    console.log("Currrent height and width: ", window.innerHeight, window.innerWidth)
   }
 
   const isRotateLandscape = ((windowInnerHeight > window.innerHeight) && (windowInnerWidth < window.innerWidth))
   const isRotatePortrait = ((windowInnerHeight < window.innerHeight) && (windowInnerWidth > window.innerWidth))
 
   if (!changeDetected && (isRotateLandscape || isRotatePortrait)) {
-    console.log("Rotate to Landscape: ", isRotateLandscape, "\nRotate to portrait: ", isRotatePortrait)
-    console.log("Previous height and width: ", windowInnerHeight, windowInnerWidth)
     changeDetected = true
     const swap = windowInnerHeight
     windowInnerHeight = windowInnerWidth
     windowInnerWidth = swap
-    console.log("Previous height and width: ", windowInnerHeight, windowInnerWidth)
   } else {
     windowInnerHeight = window.innerHeight
     windowInnerWidth = window.innerWidth
