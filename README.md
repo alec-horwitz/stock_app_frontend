@@ -41,8 +41,8 @@ Then in terminal navigate to the root directory of this project run the followin
 npm then should print out the port you need to go to on localhost to view the app.
 
 
-Known Bugs
-----------
+Known Bugs/Issues
+-----------------
 
 The graphs are not finished. This means there are a few problems that are worth noting about the app in it's current state:
        
