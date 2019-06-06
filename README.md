@@ -44,8 +44,8 @@ npm then should print out the port you need to go to on localhost to view the ap
 Known Bugs
 ----------
 
-The graphs are not finished. This means there are a few problems that are worth noting about the app in it's current state.
+The graphs are not finished. This means there are a few problems that are worth noting about the app in it's current state:
        
-         1) Sometimes the app will crash do to a timing issue (this will be addressed after the backend is completed)
-         2) There is no code yet for line graphs so in place of line graphs the app just creates bar charts (I'll get to this when after I fix the app crashing bug)
-         3) The functionallity of these graphs are limited to just showing the must reacent opening and closing prices of each stock which isn't terribly useful (I'll get to that as soon as I make a line graph)
+ * Sometimes the app will crash do to a timing issue (this will be addressed after the backend is completed)
+ * There is no code yet for line graphs so in place of line graphs the app just creates bar charts (I'll get to this when after I fix the app crashing bug)
+ * The functionallity of these graphs are limited to just showing the must reacent opening and closing prices of each stock which isn't terribly useful (I'll get to that as soon as I make a line graph)
