@@ -12,7 +12,7 @@ For more information on the planning phases of this project checkout my blog pos
  * Phase 2: https://alecthedeveloper.wordpress.com/2019/06/06/a-d3-mechine-learning-and-django-project-phase-2-and-other-new-developments/
 
 
-Below are some screenshots of the wireframes I'm using to plan how the interface for the app will look on a mobile divice:
+Below are some screenshots of the app looks on a mobile divice:
  
 ![menu page](./Menu_Page.png)
 
